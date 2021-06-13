@@ -172,6 +172,7 @@ setupWebcam({
         camTex: webcam,
         previousTex: lastFrame,
         maskTex: faceDetectionTexture,
+        tt: 22.0,
         videoResolution: [videoWidth, videoHeight],
         time: ({ time }) => time % 10000,
         hasFace: () => hasFace,

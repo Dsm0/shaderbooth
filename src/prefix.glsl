@@ -1,6 +1,7 @@
 precision highp float;
 varying vec2 uv;
 uniform float time;
+uniform float tt;
 uniform float targetAspect;
 uniform vec2 resolution;
 uniform vec2 videoResolution;
