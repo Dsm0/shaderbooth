@@ -28,6 +28,7 @@
     "hull.js": "^1.0.0",
     "regl": "github:maxbittker/regl",
     "resl": "^1.0.3",
+    "socket.io": "^4.1.2",
     "uglifyify": "^4.0.5",
     "webrtc-adapter": "^6.4.8"
   },

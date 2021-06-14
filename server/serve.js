@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const crypto = require("crypto");
 const https = require("https");
 const cors = require("cors");
+const { udpPort } = require("osc.js");
 
 const filePath = path.join(__dirname, "sketches");
 const port = 3002;
@@ -52,6 +53,7 @@ const creds = {
     "utf8"
   )
 };
+udpPort.open();
 console.log(creds);
 https
   .createServer(creds, app)

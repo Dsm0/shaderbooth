@@ -13,6 +13,8 @@ let nextDemo = document.getElementById("next");
 
 let demoIndex = demos.indexOf("starter.glsl");
 
+let { audioUniforms} = require("./src/micIn.js");
+
 let { paintFace } = require("./src/paint");
 const Editor = require("./src/editor.js");
 
@@ -44,10 +46,10 @@ shareButton.addEventListener("click", () => {
     method: "post",
     body: JSON.stringify(editor.getValue())
   })
-    .then(function(response) {
+    .then(function (response) {
       return response.json();
     })
-    .then(function({ id }) {
+    .then(function ({ id }) {
       window.history.pushState({}, "Shaderbooth", "?" + id);
       document.getElementById("url-copy").value = "Shaderbooth.com/?" + id;
       loadShaderFromServer();
@@ -85,7 +87,7 @@ let prefixLength = prefix.split(/\r\n|\r|\n/).length - 1;
 let widgets = [];
 let markers = [];
 function clearHints(errors) {
-  editor.cm.operation(function() {
+  editor.cm.operation(function () {
     for (var i = 0; i < widgets.length; ++i) {
       editor.cm.removeLineWidget(widgets[i]);
     }
@@ -166,7 +168,6 @@ setupWebcam({
   done: (webcam, { videoWidth, videoHeight, getKeyPoints }) => {
     faceDetectionTexture = regl.texture(paintElement);
     // faceDetectionTexture.resize(videoWidth, videoHeight);
-
     let drawTriangle = regl({
       uniforms: {
         camTex: webcam,
@@ -180,6 +181,10 @@ setupWebcam({
           viewportWidth,
           viewportHeight
         ],
+        "fft[0]" : () => audioUniforms(0),
+        "fft[1]" : () => audioUniforms(1),
+        "fft[2]" : () => audioUniforms(2),
+        "fft[3]" : () => audioUniforms(3),
         targetAspect: () => window.innerWidth / window.innerHeight,
         scaledVideoResolution: ({ viewportWidth: vW, viewportHeight: vH }) => {
           let i;
@@ -211,7 +216,7 @@ setupWebcam({
       count: 3
     });
 
-    regl.frame(function(context) {
+    regl.frame(function (context) {
       let keyPoints = getKeyPoints();
       // regl.clear({
       //   color: [0, 0, 0, 1]

@@ -1,6 +1,8 @@
 let facemesh = require("@tensorflow-models/facemesh");
 let tf = require("@tensorflow/tfjs-core");
 
+let { getLocalStream} = require("./micIn.js")
+
 let loader = document.getElementById("loading");
 let model;
 let video = null;
@@ -59,7 +61,7 @@ function setupWebcam(options) {
         // .getDisplayMedia({
         .getUserMedia({
           video: true,
-          audio: false
+          audio: true
         })
         .then(gumSuccess)
         .catch(e => {
@@ -71,7 +73,7 @@ function setupWebcam(options) {
 
     tryGetUserMedia();
 
-    startbutton.onclick = function() {
+    startbutton.onclick = function () {
       console.log("play!");
       tryGetUserMedia();
       // startVideo();
@@ -84,7 +86,10 @@ function setupWebcam(options) {
       } else {
         video.src = window.URL && window.URL.createObjectURL(stream);
       }
-      video.onloadedmetadata = function() {
+
+      getLocalStream(stream);
+
+      video.onloadedmetadata = function () {
         console.log("metadata loaded");
         const webcam = regl.texture(video);
 
@@ -116,12 +121,12 @@ function setupWebcam(options) {
     //   video_width = Math.round(video_height * proportion);
     //   video.width = video_width;
     // }
-    video.onresize = function() {
+    video.onresize = function () {
       // adjustVideoProportions();
     };
     video.addEventListener(
       "canplay",
-      function(ev) {
+      function (ev) {
         video.play();
       },
       false
