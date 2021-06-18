@@ -80,6 +80,7 @@ function setupWebcam(options) {
     };
 
     function gumSuccess(stream) {
+      video.muted = true
       loader.innerText = "Loading Model...";
       if ("srcObject" in video) {
         video.srcObject = stream;
@@ -97,6 +98,7 @@ function setupWebcam(options) {
 
         var w = videoWidth;
         var h = videoHeight;
+
         video.height = h;
         video.width = w;
         paint.height = h;
